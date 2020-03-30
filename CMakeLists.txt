@@ -4,7 +4,10 @@ project(validator VERSION 0.1 LANGUAGES CXX)
 include(cmake/StandardProjectSettings.cmake)
 
 add_library(project_options INTERFACE)
-target_compile_features(project_options INTERFACE cxx_std_20)
+
+# CMake uses c++2a even if compiler supports c++20
+# target_compile_features(project_options INTERFACE cxx_std_20)
+target_compile_options(project_options INTERFACE -std=c++20)
 
 add_library(project_warnings INTERFACE)
 
@@ -48,5 +51,5 @@ if(ENABLE_FUZZING)
   add_subdirectory(fuzz_test)
 endif()
 
-include(cmake/DownloadProject.cmake)
+include(ExternalProject)
 add_subdirectory(src)
